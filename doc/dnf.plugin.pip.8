@@ -1,0 +1,72 @@
+.TH "dnf.plugin.pip" "8" "March 21, 2017" "0.1.0" ""
+
+.SH NAME
+.PP
+dnf pip \- Search, download, and (un)install Python package
+
+.SH SYNOPSIS
+.B dnf pip
+.R [ \-\-python 
+.I VERSION
+.R ]
+.B install
+.R [ \-r
+.I FILE
+.R ]
+.R [
+.I PYPKG
+.R ]
+.br
+.B dnf pip
+.R [ \-\-python 
+.I VERSION
+.R ]
+.B uninstall
+.R [ \-r 
+.I FILE
+.R ]
+--autoremove
+.R [
+.I PYPKG
+.R ]
+.br
+
+.SH DESCRIPTION
+.PP
+\f[B]dnf pip\f[] can be used to manipulate Python packages. It reads Python
+requirements formats and installs the appropriate Fedora packages for pypi
+packages where the exist. Since a large portion of the pypi packages are not
+avaliable on Fedora, it may be useful to enable the \f[I]@copr/PyPi\f[] copr
+repository for additional utility.
+.PP
+\f[B]dnf pip\f[] accepts the following commands:
+.TP
+.B install
+Downloads and installs specified pypi packages as rpms.
+.TP
+.B uninstall
+Removes all pypi packages as rpms.
+
+.SH OPTIONS
+.TP
+.BI \-\-python
+Python version. Can be found running \f[B] python -c 'import sysconfig;
+print(sysconfig.get_python_version())'\f[].
+.br
+\f[B]Default:\f[] system default Python version.
+.TP
+.B \-r,\-\-requirements \f[I]<file>\f[]
+Install from the given requirements file. This option can be used multiple
+times.
+.TP
+.B \-\-autoremove
+Removes all packages no longer required or pulled in as dependencies of
+packages to be removed.
+
+.SH SEE ALSO
+dnf(8),
+.SS Project homepage
+https://github.com/barracks510/dnf-plugin-pip
+
+.SH AUTHORS
+Dennis Chen <barracks510@gmail.com>
