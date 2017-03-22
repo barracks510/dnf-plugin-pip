@@ -11,6 +11,7 @@ from dnf.cli import Command, CliError
 from dnf.cli.commands import err_mini_usage
 
 from pip.download import PipSession
+from pip.exceptions import InstallationError
 from pip.req.req_file import parse_requirements
 from pip.req.req_install import InstallRequirement
 
@@ -106,8 +107,12 @@ class PipCommand(Command):
 
         pip_reqs = []
         for filename in self.opts.requirement:
-            file_reqs = parse_requirements(filename, session=session)
-            pip_reqs.extend(file_reqs)
+            try:
+                file_reqs = parse_requirements(filename, session=session)
+                pip_reqs.extend(file_reqs)
+            except InstallationError as e:
+                LOGGER.error('Error: %s', e)
+                raise CliError
         for pkg in self.opts.pkgs:
             pkg_req = InstallRequirement.from_line(pkg)
             pip_reqs.append(pkg_req)
